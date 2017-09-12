@@ -9,6 +9,42 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--自选股-->
+        <scene sceneID="5vZ-WN-MSG">
+            <objects>
+                <navigationController id="Yrd-m4-vOI" customClass="StocksNavigationController" customModule="Portfolio" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="自选股" image="自选S" selectedImage="自选" id="GcM-yo-F3I"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="8na-CJ-4YF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="QfX-Mg-oZG" kind="relationship" relationship="rootViewController" id="B1b-K2-6Qh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u4t-yv-STM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-495" y="-1664"/>
+        </scene>
+        <!--Stocks View Controller-->
+        <scene sceneID="9cq-eR-cJU">
+            <objects>
+                <viewController id="QfX-Mg-oZG" customClass="StocksViewController" customModule="Portfolio" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TfE-ET-XrE"/>
+                        <viewControllerLayoutGuide type="bottom" id="G5h-0F-OoY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JB8-Sk-pVC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="a49-1l-UHj"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8R3-Np-ArK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="239" y="-1665"/>
+        </scene>
         <!--资讯-->
         <scene sceneID="Ivt-Do-tdh">
             <objects>
@@ -26,26 +62,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jN7-ED-tzp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="950" y="-543"/>
-        </scene>
-        <!--自选-->
-        <scene sceneID="wEt-Tx-vLg">
-            <objects>
-                <viewController id="qTq-EX-jEf" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="0bx-h9-a3O"/>
-                        <viewControllerLayoutGuide type="bottom" id="qFR-bA-N2j"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="cI6-zT-JLx">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="自选" image="自选" selectedImage="自选S" id="kF6-ev-Rzs"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AYw-9J-78b" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="278" y="-542"/>
+            <point key="canvasLocation" x="-495" y="-993"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="bWP-aV-vLx">
@@ -57,7 +74,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="qTq-EX-jEf" kind="relationship" relationship="viewControllers" id="qRq-BC-EWK"/>
+                        <segue destination="Yrd-m4-vOI" kind="relationship" relationship="viewControllers" id="295-AK-u5D"/>
                         <segue destination="brC-4C-iOY" kind="relationship" relationship="viewControllers" id="dkJ-qi-WFw"/>
                         <segue destination="gtG-AX-Gow" kind="relationship" relationship="viewControllers" id="u94-yQ-Pfd"/>
                         <segue destination="24K-c4-XTJ" kind="relationship" relationship="viewControllers" id="KwX-Mf-Vj9"/>
@@ -65,7 +82,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kO8-3A-XjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-396" y="-542"/>
+            <point key="canvasLocation" x="-1140" y="-556"/>
         </scene>
         <!--行情-->
         <scene sceneID="IH6-gT-gIp">
@@ -84,7 +101,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ScE-OB-2eW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-396" y="156"/>
+            <point key="canvasLocation" x="-495" y="-331"/>
         </scene>
         <!--发现-->
         <scene sceneID="7P8-va-NWA">
@@ -103,7 +120,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9OE-xV-z94" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="290" y="154"/>
+            <point key="canvasLocation" x="-495" y="320"/>
         </scene>
     </scenes>
     <resources>

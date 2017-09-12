@@ -15,7 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        self.setWholeCharactor()
+        
         return true
     }
 
@@ -40,7 +41,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    
+    func setWholeCharactor(){
+        UINavigationBar.appearance().tintColor = UIColor(displayP3Red: 0, green: 0.3333, blue: 1, alpha: 1)
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().barStyle = .black
+        UINavigationBar.appearance().barTintColor = UIColor(colorLiteralRed: 0.15, green: 0.15, blue: 0.2, alpha: 1)
+        UITabBar.appearance().isTranslucent = false
+        UITabBar.appearance().barTintColor = UIColor(colorLiteralRed: 0.15, green: 0.15, blue: 0.2, alpha: 1)
+    }
 
 }
 

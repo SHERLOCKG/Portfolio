@@ -7,29 +7,67 @@
 //
 
 import UIKit
+import SnapKit
+import Alamofire
 
 class StocksViewController: UIViewController {
+    fileprivate lazy var tableView : UITableView = {
+        let tableView = UITableView()
+        
+        tableView.backgroundColor = UIColor.black
+        tableView.separatorStyle = .none
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        return tableView
+    }()
 
-    override func viewDidLoad() {
+    override func viewDidLoad(){
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.title = "自选股"
+        
+        self.view.addSubview(self.tableView)
+        tableView.snp.makeConstraints { (make) in
+            make.left.right.top.bottom.equalTo(0)
+        }
+        
+        Alamofire.request("http://hq.sinajs.cn/list=sh600066").responseString { (response) in
+            print(response.request as Any)
+            print(response.response as Any)
+            print(String(data: response.data!, encoding: .utf8) as Any)
+            print(response.result.value as Any)
+            print(response.error as Any)
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+}
+
+extension StocksViewController:UITableViewDelegate{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension StocksViewController:UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 30
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
-    */
-
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "CELL")
+        if cell == nil {
+            cell = UITableViewCell()
+        }
+        cell?.backgroundColor = UIColor.black
+        cell?.textLabel?.textColor = UIColor.white
+        cell?.textLabel?.text = "\(indexPath.row)"
+        return cell!
+    }
 }
