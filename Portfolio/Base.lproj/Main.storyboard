@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item 2-->
+        <!--资讯-->
         <scene sceneID="Ivt-Do-tdh">
             <objects>
                 <viewController id="brC-4C-iOY" sceneMemberID="viewController">
@@ -22,13 +22,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="c4Z-D3-092"/>
+                    <tabBarItem key="tabBarItem" title="资讯" image="资讯" selectedImage="资讯S" id="c4Z-D3-092"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jN7-ED-tzp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="950" y="-543"/>
         </scene>
-        <!--Item 1-->
+        <!--自选-->
         <scene sceneID="wEt-Tx-vLg">
             <objects>
                 <viewController id="qTq-EX-jEf" sceneMemberID="viewController">
@@ -41,7 +41,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" id="kF6-ev-Rzs"/>
+                    <tabBarItem key="tabBarItem" title="自选" image="自选" selectedImage="自选S" id="kF6-ev-Rzs"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AYw-9J-78b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -67,7 +67,7 @@
             </objects>
             <point key="canvasLocation" x="-396" y="-542"/>
         </scene>
-        <!--Item 3-->
+        <!--行情-->
         <scene sceneID="IH6-gT-gIp">
             <objects>
                 <viewController id="gtG-AX-Gow" sceneMemberID="viewController">
@@ -80,13 +80,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 3" id="3yU-7f-SR2"/>
+                    <tabBarItem key="tabBarItem" title="行情" image="行情S" selectedImage="行情" id="3yU-7f-SR2"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ScE-OB-2eW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-396" y="156"/>
         </scene>
-        <!--Item 4-->
+        <!--发现-->
         <scene sceneID="7P8-va-NWA">
             <objects>
                 <viewController id="24K-c4-XTJ" sceneMemberID="viewController">
@@ -99,11 +99,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 4" id="kHT-FC-HP1"/>
+                    <tabBarItem key="tabBarItem" title="发现" image="发现" selectedImage="发现S" id="kHT-FC-HP1"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9OE-xV-z94" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="290" y="154"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="发现" width="25" height="25"/>
+        <image name="发现S" width="25" height="25"/>
+        <image name="自选" width="25" height="25"/>
+        <image name="自选S" width="25" height="25"/>
+        <image name="行情" width="25" height="25"/>
+        <image name="行情S" width="25" height="25"/>
+        <image name="资讯" width="25" height="25"/>
+        <image name="资讯S" width="25" height="25"/>
+    </resources>
 </document>
