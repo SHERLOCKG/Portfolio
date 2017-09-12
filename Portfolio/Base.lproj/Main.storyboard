@@ -107,13 +107,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="发现" width="25" height="25"/>
-        <image name="发现S" width="25" height="25"/>
-        <image name="自选" width="25" height="25"/>
-        <image name="自选S" width="25" height="25"/>
-        <image name="行情" width="25" height="25"/>
-        <image name="行情S" width="25" height="25"/>
-        <image name="资讯" width="25" height="25"/>
-        <image name="资讯S" width="25" height="25"/>
+        <image name="发现" width="27" height="27"/>
+        <image name="发现S" width="27" height="27"/>
+        <image name="自选" width="27" height="27"/>
+        <image name="自选S" width="27" height="27"/>
+        <image name="行情" width="27" height="27"/>
+        <image name="行情S" width="27" height="27"/>
+        <image name="资讯" width="27" height="27"/>
+        <image name="资讯S" width="27" height="27"/>
     </resources>
 </document>
