@@ -36,8 +36,10 @@ class StocksViewController: UIViewController {
             print(response.response as Any)
             print(String(data: response.data!, encoding: .utf8) as Any)
             print(response.result.value as Any)
-            print(response.error as Any)
+            print(response.timeline)
+            print(response.metrics as Any)
         }
+
     }
 
     override func didReceiveMemoryWarning() {
