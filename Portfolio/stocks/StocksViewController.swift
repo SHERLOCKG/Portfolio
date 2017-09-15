@@ -18,6 +18,7 @@ class StocksViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.delaysContentTouches = false
         
         return tableView
     }()
@@ -65,11 +66,16 @@ extension StocksViewController:UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "CELL")
         if cell == nil {
-            cell = UITableViewCell()
+            cell = StocksTableViewCell(Stock(stockInforString: "000001", stockName: "上证指数", stockCode: "000001", stockPrice: 10.78, stockProceScope: -0.1245))
         }
-        cell?.backgroundColor = UIColor.black
-        cell?.textLabel?.textColor = UIColor.white
-        cell?.textLabel?.text = "\(indexPath.row)"
+        
+//        cell?.textLabel?.textColor = UIColor.white
+//        cell?.textLabel?.text = "\(indexPath.row)"
+        (cell as! StocksTableViewCell).stock = Stock(stockInforString: "000001", stockName: "上证指数", stockCode: "000001", stockPrice: 10.78, stockProceScope: -0.1245)
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 46
     }
 }
