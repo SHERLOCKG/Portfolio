@@ -71,7 +71,7 @@ extension StocksViewController:UITableViewDataSource{
         
 //        cell?.textLabel?.textColor = UIColor.white
 //        cell?.textLabel?.text = "\(indexPath.row)"
-        (cell as! StocksTableViewCell).stock = Stock(stockInforString: "000001", stockName: "上证指数", stockCode: "000001", stockPrice: 10.78, stockProceScope: -0.1245)
+        (cell as! StocksTableViewCell).stock = Stock(stockInforString: "000001", stockName: "上证指数", stockCode: "000001", stockPrice: 10.78, stockProceScope: -0.012)
         return cell!
     }
     

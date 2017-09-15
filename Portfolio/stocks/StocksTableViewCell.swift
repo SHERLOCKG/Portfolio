@@ -9,12 +9,21 @@
 import UIKit
 
 class StocksTableViewCell: UITableViewCell {
+    lazy var numformat : NumberFormatter = {
+        let numformat = NumberFormatter()
+        numformat.numberStyle = .percent
+        
+        return numformat
+    }()
+    
     var stock : Stock? = nil {
         didSet{
-            stockNameLabel.text = stock?.stockName
-            stockCodeLabel.text = stock?.stockCode
-            stockPriceLabel.text = "\(stock?.stockPrice ?? 0000)"
-            stockPriceScopeButton.setTitle("\(stock?.stockProceScope ?? 00.00)", for: .normal)
+            if stock != nil {
+                stockNameLabel.text = stock!.stockName
+                stockCodeLabel.text = stock!.stockCode
+                stockPriceLabel.text = String(format: "%.2f", stock!.stockPrice!)
+                stockPriceScopeButton.setTitle("\(stock!.stockProceScope!*100)%", for: .normal)
+            }
         }
     }
     
@@ -43,8 +52,8 @@ class StocksTableViewCell: UITableViewCell {
     
     public let stockPriceScopeButton : UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = .green
-         button.setTitleColor(.white, for: .normal)
+//        button.backgroundColor = UIColor(displayP3Red: 0.5, green: 0, blue: 0.5, alpha: 1)
+        button.setTitleColor(.white, for: .normal)
         
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         
@@ -108,8 +117,8 @@ class StocksTableViewCell: UITableViewCell {
         if stock != nil {
             stockNameLabel.text = stock!.stockName
             stockCodeLabel.text = stock!.stockCode
-            stockPriceLabel.text = String(describing: stock!.stockPrice)
-            stockPriceScopeButton.setTitle(String(describing: stock!.stockProceScope), for: .normal)
+            stockPriceLabel.text = String(format: "%.2f", stock!.stockPrice!)
+            stockPriceScopeButton.setTitle("\(stock!.stockProceScope!*100)", for: .normal)
         }else{
             
         }
@@ -122,13 +131,13 @@ class StocksTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-        stockPriceScopeButton.backgroundColor = .green
+        stockPriceScopeButton.backgroundColor = UIColor(displayP3Red: 0.5, green: 1, blue: 0.5, alpha: 1)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        stockPriceScopeButton.backgroundColor = .green
+        stockPriceScopeButton.backgroundColor = UIColor(displayP3Red: 0, green: 1, blue: 0, alpha: 0.5)
     }
 
 }
