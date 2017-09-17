@@ -11,6 +11,7 @@ import SnapKit
 import Alamofire
 
 class StocksViewController: UIViewController {
+    var stocks : [Stock]?
     fileprivate lazy var tableView : UITableView = {
         let tableView = UITableView()
         
@@ -66,12 +67,9 @@ extension StocksViewController:UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "CELL")
         if cell == nil {
-            cell = StocksTableViewCell(Stock(stockInforString: "000001", stockName: "上证指数", stockCode: "000001", stockPrice: 10.78, stockProceScope: -0.1245))
+            cell = StocksTableViewCell(Stock(stockName: "上证指数", stockCode: "000001", stockPrice: 10.78, stockPriceScope: -0.1245))
         }
-        
-//        cell?.textLabel?.textColor = UIColor.white
-//        cell?.textLabel?.text = "\(indexPath.row)"
-        (cell as! StocksTableViewCell).stock = Stock(stockInforString: "000001", stockName: "上证指数", stockCode: "000001", stockPrice: 10.78, stockProceScope: -0.012)
+        (cell as! StocksTableViewCell).stock = Stock(stockName: "上证指数", stockCode: "000001", stockPrice: 10.78, stockPriceScope: -0.11237)
         return cell!
     }
     

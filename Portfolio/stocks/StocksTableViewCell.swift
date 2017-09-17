@@ -21,8 +21,8 @@ class StocksTableViewCell: UITableViewCell {
             if stock != nil {
                 stockNameLabel.text = stock!.stockName
                 stockCodeLabel.text = stock!.stockCode
-                stockPriceLabel.text = String(format: "%.2f", stock!.stockPrice!)
-                stockPriceScopeButton.setTitle("\(stock!.stockProceScope!*100)%", for: .normal)
+                stockPriceLabel.text = stock!.stockPriceString
+                stockPriceScopeButton.setTitle(stock!.stockPriceScopeString, for: .normal)
             }
         }
     }
@@ -52,7 +52,6 @@ class StocksTableViewCell: UITableViewCell {
     
     public let stockPriceScopeButton : UIButton = {
         let button = UIButton(type: .custom)
-//        button.backgroundColor = UIColor(displayP3Red: 0.5, green: 0, blue: 0.5, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
@@ -117,8 +116,9 @@ class StocksTableViewCell: UITableViewCell {
         if stock != nil {
             stockNameLabel.text = stock!.stockName
             stockCodeLabel.text = stock!.stockCode
-            stockPriceLabel.text = String(format: "%.2f", stock!.stockPrice!)
-            stockPriceScopeButton.setTitle("\(stock!.stockProceScope!*100)", for: .normal)
+            stockPriceLabel.text = stock!.stockPriceString
+            stockPriceScopeButton.setTitle(stock?.stockPriceScopeString, for: .normal)
+            
         }else{
             
         }

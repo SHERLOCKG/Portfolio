@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE210FA81F6D1B48002AD5B6 /* StockInfoLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE210FA71F6D1B48002AD5B6 /* StockInfoLoader.swift */; };
+		AE210FAA1F6D1FDC002AD5B6 /* stocks.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE210FA91F6D1FDC002AD5B6 /* stocks.plist */; };
 		AE4AE99D1F66803E0017A6CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4AE99C1F66803E0017A6CE /* AppDelegate.swift */; };
 		AE4AE9A21F66803E0017A6CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE4AE9A01F66803E0017A6CE /* Main.storyboard */; };
 		AE4AE9A41F66803E0017A6CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE4AE9A31F66803E0017A6CE /* Assets.xcassets */; };
@@ -20,6 +22,8 @@
 
 /* Begin PBXFileReference section */
 		4212D2B9C6837DED345C46D4 /* Pods_Portfolio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Portfolio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE210FA71F6D1B48002AD5B6 /* StockInfoLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockInfoLoader.swift; sourceTree = "<group>"; };
+		AE210FA91F6D1FDC002AD5B6 /* stocks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = stocks.plist; sourceTree = "<group>"; };
 		AE4AE9991F66803E0017A6CE /* Portfolio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Portfolio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE4AE99C1F66803E0017A6CE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AE4AE9A11F66803E0017A6CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -104,6 +108,8 @@
 				AE4AE9B21F677A090017A6CE /* StocksViewController.swift */,
 				AE4AE9B71F67E0170017A6CE /* StocksTableViewCell.swift */,
 				AE5C1B661F6933FD0008DC07 /* Stock.swift */,
+				AE210FA71F6D1B48002AD5B6 /* StockInfoLoader.swift */,
+				AE210FA91F6D1FDC002AD5B6 /* stocks.plist */,
 			);
 			name = stocks;
 			path = Portfolio/stocks;
@@ -197,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE4AE9A71F66803E0017A6CE /* LaunchScreen.storyboard in Resources */,
+				AE210FAA1F6D1FDC002AD5B6 /* stocks.plist in Resources */,
 				AE4AE9A41F66803E0017A6CE /* Assets.xcassets in Resources */,
 				AE4AE9A21F66803E0017A6CE /* Main.storyboard in Resources */,
 			);
@@ -258,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE4AE9B61F678AFA0017A6CE /* StocksNavigationController.swift in Sources */,
+				AE210FA81F6D1B48002AD5B6 /* StockInfoLoader.swift in Sources */,
 				AE4AE99D1F66803E0017A6CE /* AppDelegate.swift in Sources */,
 				AE5C1B671F6933FD0008DC07 /* Stock.swift in Sources */,
 				AE4AE9B81F67E0170017A6CE /* StocksTableViewCell.swift in Sources */,

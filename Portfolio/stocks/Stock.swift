@@ -9,12 +9,43 @@
 import Foundation
 
 struct Stock{
-    var stockInforString : String?
     
     var stockName : String?
     var stockCode : String?
-    var stockPrice : Float?
-    var stockProceScope : Float?
+    var stockPrice : Float {
+        set(newValue){
+            stockPriceString = String(format: "%.2f", newValue)
+        }
+        get{
+            if let f = Float(self.stockPriceString) {
+                return f
+            }else{
+                return 0
+            }
+        }
+    }
+    var stockPriceScope : Float{
+        set(newValue){
+            stockPriceScopeString = String(format: "%.2f", newValue * 100) + "%"
+        }
+        get{
+            if let f = Float(self.stockPriceScopeString) {
+                return f
+            }else{
+                return 0
+            }
+        }
+    }
+    
+    var stockPriceString : String = "--"
+    var stockPriceScopeString : String = "--"
+    
+    init(stockName : String, stockCode : String, stockPrice : Float, stockPriceScope : Float) {
+        self.stockName = stockName
+        self.stockCode = stockCode
+        self.stockPrice = stockPrice
+        self.stockPriceScope = stockPriceScope
+    }
     
 //    init(stockInforString : String) {
 //        self.stockInforString = stockInforString
