@@ -9,18 +9,23 @@
 import Foundation
 import Alamofire
 
-struct StockInfoLoader {
-    func loadStocksInfos() -> [Stock]? {
+protocol StockInfoLoaderDelegate : class{
+    func didLoadStockInfos(stocks : [Stock])
+}
+
+class StockInfoLoader {
+    var stockCodes : [String] = []
+    var stocks : [Stock] = []
+    weak var delegate : StockInfoLoaderDelegate?
+    
+    func loadStocksInfos(){
         Alamofire.request(generateURLString()).responseString{
-            response in
+            [weak self] response in
             if let value = response.result.value{
-                return analysis(value: value)!
-            }else{
-                return nil
+                self?.generateStocks(value: value)
+                self?.delegate?.didLoadStockInfos(stocks: (self?.stocks)!)
             }
         }
-        
-        return nil
     }
     
     func generateURLString () -> String{
@@ -32,17 +37,23 @@ struct StockInfoLoader {
             urlString.append(dic["type"]!)
             urlString.append(dic["num"]!)
             urlString.append(",")
+            stockCodes.append(dic["num"]!)
         }
         
         return urlString
     }
     
-    func analysis(value : String) -> [Stock]? {
-        var stocks : [Stock] = []
+    func generateStocks(value : String){
         let stockStrings = value.components(separatedBy:";")
+        var i = 0
+        
         for item in stockStrings {
-            let stockInfoStrings = item.components(separatedBy:"\"")[1].components(separatedBy:",")
-            stocks.append(Stock(stockName: "上证指数", stockCode: "000001", stockPrice: 10.78, stockPriceScope: -0.1245))
+            if i > 19 {
+                break
+            }
+            let stock = Stock(stockInfoString: item, stockCode : stockCodes[i])
+            self.stocks.append(stock)
+            i = i + 1
         }
     }
 }

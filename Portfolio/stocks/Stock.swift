@@ -9,52 +9,58 @@
 import Foundation
 
 struct Stock{
-    
+    var stockInfoString : String?
     var stockName : String?
     var stockCode : String?
-    var stockPrice : Float {
-        set(newValue){
-            stockPriceString = String(format: "%.2f", newValue)
-        }
+    var stockPrice : Float
+    var stockPriceScope : Float
+    var isSuspended : Bool
+    
+    var stockPriceString : String {
         get{
-            if let f = Float(self.stockPriceString) {
-                return f
-            }else{
-                return 0
-            }
+            return String(format: "%.2f", self.stockPrice)
         }
     }
-    var stockPriceScope : Float{
-        set(newValue){
-            stockPriceScopeString = String(format: "%.2f", newValue * 100) + "%"
-        }
+    var stockPriceScopeString : String {
         get{
-            if let f = Float(self.stockPriceScopeString) {
-                return f
+            if self.stockPriceScope > 0{
+                return String(format: "+%.2f", self.stockPriceScope * 100) + "%"
             }else{
-                return 0
+                return String(format: "%.2f", self.stockPriceScope * 100) + "%"
             }
         }
     }
     
-    var stockPriceString : String = "--"
-    var stockPriceScopeString : String = "--"
+    init(stockInfoString : String, stockCode : String) {
+        self.stockInfoString = stockInfoString
+        self.stockCode = stockCode
+        let stockData = self.stockInfoString!.components(separatedBy:"\"")[1].components(separatedBy:",")
+        self.stockName = stockData[0]
+        if Float(stockData[1]) == 0 {
+            self.stockPrice = Float(stockData[2])!
+            self.stockPriceScope = 0
+            self.isSuspended = true
+        }else{
+            self.stockPrice = Float(stockData[3])!
+            self.stockPriceScope = (Float(stockData[3])! - Float(stockData[2])!) / Float(stockData[2])!
+            self.isSuspended = false
+        }
+//        analysis()
+    }
     
     init(stockName : String, stockCode : String, stockPrice : Float, stockPriceScope : Float) {
         self.stockName = stockName
         self.stockCode = stockCode
         self.stockPrice = stockPrice
         self.stockPriceScope = stockPriceScope
+        self.isSuspended = false
     }
     
-//    init(stockInforString : String) {
-//        self.stockInforString = stockInforString
-//        if self.stockInforString != nil{
-//            self.analysis()
-//        }
+//    mutating func analysis(){
+//        let stockData = self.stockInfoString!.components(separatedBy:"\"")[1].components(separatedBy:",")
+//        self.stockName = stockData[0]
+//        self.stockPrice = Float(stockData[3])!
+//        self.stockPriceScope = (Float(stockData[3])! - Float(stockData[2])!) / Float(stockData[2])!
 //    }
-//    
-//    func analysis(){
-//        
-//    }
+    
 }

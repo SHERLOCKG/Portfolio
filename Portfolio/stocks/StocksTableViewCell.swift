@@ -16,14 +16,11 @@ class StocksTableViewCell: UITableViewCell {
         return numformat
     }()
     
+    var stockPriceScopeButtonColor : UIColor?
+    
     var stock : Stock? = nil {
         didSet{
-            if stock != nil {
-                stockNameLabel.text = stock!.stockName
-                stockCodeLabel.text = stock!.stockCode
-                stockPriceLabel.text = stock!.stockPriceString
-                stockPriceScopeButton.setTitle(stock!.stockPriceScopeString, for: .normal)
-            }
+            self.setSubviewFeatures()
         }
     }
     
@@ -113,14 +110,29 @@ class StocksTableViewCell: UITableViewCell {
             make.height.equalTo(32)
         }
         
+        self.setSubviewFeatures()
+    }
+    
+    func setSubviewFeatures(){
         if stock != nil {
             stockNameLabel.text = stock!.stockName
             stockCodeLabel.text = stock!.stockCode
             stockPriceLabel.text = stock!.stockPriceString
-            stockPriceScopeButton.setTitle(stock?.stockPriceScopeString, for: .normal)
             
-        }else{
+            if stock!.isSuspended {
+                stockPriceScopeButton.setTitle("停牌", for: .normal)
+            }else{
+                stockPriceScopeButton.setTitle(stock!.stockPriceScopeString, for: .normal)
+            }
             
+            if stock!.stockPriceScope > 0 {
+                self.stockPriceScopeButtonColor = UIColor(displayP3Red: 0.8, green: 0.2, blue: 0.2, alpha: 0.8)
+            }else if stock!.stockPriceScope < 0{
+                self.stockPriceScopeButtonColor = UIColor(displayP3Red: 0, green: 1, blue: 0, alpha: 0.5)
+            }else{
+                self.stockPriceScopeButtonColor = UIColor(displayP3Red: 0.5, green: 0.5, blue: 0.5, alpha: 0.6)
+            }
+            stockPriceScopeButton.backgroundColor = self.stockPriceScopeButtonColor
         }
     }
     
@@ -131,13 +143,13 @@ class StocksTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-        stockPriceScopeButton.backgroundColor = UIColor(displayP3Red: 0.5, green: 1, blue: 0.5, alpha: 1)
+        stockPriceScopeButton.backgroundColor = self.stockPriceScopeButtonColor
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        stockPriceScopeButton.backgroundColor = UIColor(displayP3Red: 0, green: 1, blue: 0, alpha: 0.5)
+        stockPriceScopeButton.backgroundColor = self.stockPriceScopeButtonColor
     }
 
 }
