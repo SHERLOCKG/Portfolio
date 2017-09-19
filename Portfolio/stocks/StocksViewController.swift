@@ -14,6 +14,7 @@ class StocksViewController: UIViewController {
     let loader = StockInfoLoader()
     
     var stocks : [Stock]?
+    var lastStocks : [Stock]?
     fileprivate lazy var tableView : UITableView = {
         let tableView = UITableView()
         
@@ -34,18 +35,9 @@ class StocksViewController: UIViewController {
         tableView.snp.makeConstraints { (make) in
             make.left.right.top.bottom.equalTo(0)
         }
+        
         self.loader.delegate = self
         self.loader.loadStocksInfos()
-        
-//        Alamofire.request("http://hq.sinajs.cn/list=sh600066").responseString { (response) in
-//            print(response.request as Any)
-//            print(response.response as Any)
-//            print(String(data: response.data!, encoding: .utf8) as Any)
-//            print(response.result.value as Any)
-//            print(response.timeline)
-//            print(response.metrics as Any)
-//        }
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,6 +49,24 @@ extension StocksViewController:UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let color = (cell as! StocksTableViewCell).stockPriceScopeButtonColor
+        
+        if self.lastStocks != nil {
+            if self.lastStocks![indexPath.row].stockPrice != self.stocks![indexPath.row].stockPrice{
+                UIView.animate(withDuration: 1){
+                    
+                    (cell as! StocksTableViewCell).stockPriceScopeButton.backgroundColor = color?.withAlphaComponent(0.3)
+                    
+                    UIView.animate(withDuration: 1, animations: {
+                        (cell as! StocksTableViewCell).stockPriceScopeButton.backgroundColor = color
+                    })
+                }
+            }
+        }
+    }
+    
 }
 
 extension StocksViewController:UITableViewDataSource{
@@ -88,6 +98,7 @@ extension StocksViewController:UITableViewDataSource{
 
 extension StocksViewController : StockInfoLoaderDelegate{
     func didLoadStockInfos(stocks: [Stock]) {
+        self.lastStocks = self.stocks
         self.stocks = stocks
         self.tableView.reloadData()
     }

@@ -106,7 +106,7 @@ class StocksTableViewCell: UITableViewCell {
         stockPriceLabel.snp.makeConstraints { (make) in
             make.right.equalTo(stockPriceScopeButton.snp.left).offset(-15)
             make.top.equalTo(stockPriceScopeButton)
-            make.width.equalTo(70)
+            make.width.equalTo(80)
             make.height.equalTo(32)
         }
         

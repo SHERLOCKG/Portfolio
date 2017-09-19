@@ -14,7 +14,7 @@ struct Stock{
     var stockCode : String?
     var stockPrice : Float
     var stockPriceScope : Float
-    var isSuspended : Bool
+    var isSuspended : Bool = false
     
     var stockPriceString : String {
         get{
@@ -43,9 +43,7 @@ struct Stock{
         }else{
             self.stockPrice = Float(stockData[3])!
             self.stockPriceScope = (Float(stockData[3])! - Float(stockData[2])!) / Float(stockData[2])!
-            self.isSuspended = false
         }
-//        analysis()
     }
     
     init(stockName : String, stockCode : String, stockPrice : Float, stockPriceScope : Float) {
@@ -55,12 +53,5 @@ struct Stock{
         self.stockPriceScope = stockPriceScope
         self.isSuspended = false
     }
-    
-//    mutating func analysis(){
-//        let stockData = self.stockInfoString!.components(separatedBy:"\"")[1].components(separatedBy:",")
-//        self.stockName = stockData[0]
-//        self.stockPrice = Float(stockData[3])!
-//        self.stockPriceScope = (Float(stockData[3])! - Float(stockData[2])!) / Float(stockData[2])!
-//    }
     
 }
