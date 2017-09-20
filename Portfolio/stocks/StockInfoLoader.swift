@@ -25,15 +25,8 @@ class StockInfoLoader {
     var stocks : [Stock]?
     weak var delegate : StockInfoLoaderDelegate?
     var timer : DispatchSourceTimer?
-//        = {
-//        let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
-////        let a = self.supposedTimeSectionValue()
-//        timer.scheduleRepeating(deadline: .now(), interval: .seconds(10))
-//        
-//        return timer
-//    }()
     var refreshInteval : TimeInterval = 0
-    
+
     func loadStocksInfos(){
         if timer == nil {
             timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
@@ -41,11 +34,12 @@ class StockInfoLoader {
             timer?.scheduleRepeating(deadline: .now(), interval: .seconds(Int(self.refreshInteval)))
         }
         
+        let urlString = self.generateURLString()
         timer!.setEventHandler(handler: {
             [weak self] in
             self?.timer!.suspend()
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
-            Alamofire.request((self?.generateURLString())!).responseString{
+            Alamofire.request(urlString).responseString{
                 [weak self] response in
                 if let value = response.result.value{
                     self?.generateStocks(value: value)
@@ -56,7 +50,7 @@ class StockInfoLoader {
                 let a = self?.supposedTimeSectionValue()
                 if a != self?.refreshInteval{
                     self?.timer!.cancel()
-                    self?.timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
+                    self?.timer?.activate()
                     self?.timer!.scheduleRepeating(deadline: .now(), interval: .seconds(Int(a!)))
                     self?.refreshInteval = a!
                 }

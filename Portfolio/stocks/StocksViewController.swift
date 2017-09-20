@@ -39,6 +39,10 @@ class StocksViewController: UIViewController {
         self.loader.delegate = self
         self.loader.loadStocksInfos()
     }
+    
+//    private func setNavigationBarItem{
+//        let editerNavigationBarItem = UINavigationItem
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -55,14 +59,15 @@ extension StocksViewController:UITableViewDelegate{
         
         if self.lastStocks != nil {
             if self.lastStocks![indexPath.row].stockPrice != self.stocks![indexPath.row].stockPrice{
-                UIView.animate(withDuration: 1){
+                UIView.animate(withDuration: 1.5){
                     
                     (cell as! StocksTableViewCell).stockPriceScopeButton.backgroundColor = color?.withAlphaComponent(0.3)
                     
-                    UIView.animate(withDuration: 1, animations: {
+                    UIView.animate(withDuration: 1.5, animations: {
                         (cell as! StocksTableViewCell).stockPriceScopeButton.backgroundColor = color
                     })
                 }
+                self.lastStocks![indexPath.row] = self.stocks![indexPath.row]
             }
         }
     }
