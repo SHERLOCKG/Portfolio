@@ -36,20 +36,52 @@ class StocksViewController: UIViewController {
             make.left.right.top.bottom.equalTo(0)
         }
         
+        self.setNavigationBarItem()
+        
         self.loader.delegate = self
         self.loader.loadStocksInfos()
     }
     
-//    private func setNavigationBarItem{
-//        let editerNavigationBarItem = UINavigationItem
-//    }
+    private func setNavigationBarItem(){
+        let editItem = UIBarButtonItem(title: "编辑", style: .plain, target: self, action: #selector(edit))
+        let leftSpaceItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        leftSpaceItem.width = 7
+        editItem.setTitleTextAttributes([NSFontAttributeName : UIFont.systemFont(ofSize: 14)], for: .normal)
+        self.navigationItem.leftBarButtonItems = [leftSpaceItem,editItem]
+    }
+    
+    @objc private func edit(){
+        self.tableView.setEditing(!self.tableView.isEditing, animated: true)
+//        if self.tableView.isEditing {
+//            self.tableView.reloadData()
+//        }
+        
+//        for cell in self.tableView.visibleCells {
+//            UIView.animate(withDuration: 1, animations: { 
+//                (cell as! StocksTableViewCell).stockPriceScopeButton.snp.makeConstraints({ (make) in
+//                    make.right.equalTo((cell as! StocksTableViewCell).stockPriceScopeButton.snp.left).offset(-40)
+//                })
+//            })
+//        }
+        
+//        for cell in self.tableView.visibleCells {
+//            
+//                (cell as! StocksTableViewCell).stockPriceScopeButton.snp.makeConstraints({ (make) in
+//                    make.right.equalTo((cell as! StocksTableViewCell).stockPriceScopeButton.snp.left).offset(-40)
+//                })
+//        }
+//        
+//        UIView.animate(withDuration: 1, animations: {
+//            self.tableView.setNeedsDisplay()
+//        })
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 }
 
-extension StocksViewController:UITableViewDelegate{
+extension StocksViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -70,11 +102,45 @@ extension StocksViewController:UITableViewDelegate{
                 self.lastStocks![indexPath.row] = self.stocks![indexPath.row]
             }
         }
+        
+//        if self.tableView.isEditing {
+//            (cell as! StocksTableViewCell).stockPriceScopeButton.snp.makeConstraints({ (make) in
+//                make.right.equalTo((cell as! StocksTableViewCell).stockPriceScopeButton.snp.left).offset(-40)
+//            })
+//            UIView.animate(withDuration: 1, animations: {
+//                cell.setNeedsDisplay()
+//            })
+//        }
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            self.stocks?.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .bottom)
+        }else if editingStyle == .insert{
+            self.stocks?.insert(Stock(stockName: "qqqq", stockCode: "121212", stockPrice: 12.09, stockPriceScope: 0.1), at:indexPath.row)
+            tableView.insertRows(at: [indexPath], with: .bottom)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.row % 2 == 1 {
+            return false
+        }
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        
+        return .none
+    }
 }
 
-extension StocksViewController:UITableViewDataSource{
+extension StocksViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.stocks != nil {
             return (self.stocks?.count)!
@@ -101,7 +167,7 @@ extension StocksViewController:UITableViewDataSource{
     }
 }
 
-extension StocksViewController : StockInfoLoaderDelegate{
+extension StocksViewController : StockInfoLoaderDelegate {
     func didLoadStockInfos(stocks: [Stock]) {
         self.lastStocks = self.stocks
         self.stocks = stocks

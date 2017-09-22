@@ -130,3 +130,7 @@ class StockInfoLoader {
         return interval!
     }
 }
+
+func a() {
+    print("sdddd")
+}
