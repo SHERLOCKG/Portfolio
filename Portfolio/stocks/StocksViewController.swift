@@ -15,6 +15,8 @@ class StocksViewController: UIViewController {
     
     var stocks : [Stock]?
     var lastStocks : [Stock]?
+    var editBarItem: UIBarButtonItem? = nil
+    
     fileprivate lazy var tableView : UITableView = {
         let tableView = UITableView()
         
@@ -22,7 +24,7 @@ class StocksViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.delaysContentTouches = false
+        tableView.delaysContentTouches = true
         
         return tableView
     }()
@@ -43,37 +45,30 @@ class StocksViewController: UIViewController {
     }
     
     private func setNavigationBarItem(){
-        let editItem = UIBarButtonItem(title: "编辑", style: .plain, target: self, action: #selector(edit))
+        self.editBarItem = UIBarButtonItem(title: "编辑", style: .plain, target: self, action: #selector(edit))
+        self.editBarItem!.setTitleTextAttributes([NSFontAttributeName : UIFont.systemFont(ofSize: 14)], for: .normal)
         let leftSpaceItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         leftSpaceItem.width = 7
-        editItem.setTitleTextAttributes([NSFontAttributeName : UIFont.systemFont(ofSize: 14)], for: .normal)
-        self.navigationItem.leftBarButtonItems = [leftSpaceItem,editItem]
+        
+        self.navigationItem.leftBarButtonItems = [leftSpaceItem,self.editBarItem!]
     }
     
     @objc private func edit(){
+        if !self.tableView.isEditing {
+            self.editBarItem!.title = "完成"
+            
+            for cell in self.tableView.visibleCells {
+                (cell as? StocksTableViewCell)?.editModel()
+            }
+        }else{
+            self.editBarItem!.title = "编辑"
+            
+            for cell in self.tableView.visibleCells {
+                (cell as? StocksTableViewCell)?.deEditModel()
+            }
+        }
+        self.tableView.allowsMultipleSelectionDuringEditing = !self.tableView.isEditing
         self.tableView.setEditing(!self.tableView.isEditing, animated: true)
-//        if self.tableView.isEditing {
-//            self.tableView.reloadData()
-//        }
-        
-//        for cell in self.tableView.visibleCells {
-//            UIView.animate(withDuration: 1, animations: { 
-//                (cell as! StocksTableViewCell).stockPriceScopeButton.snp.makeConstraints({ (make) in
-//                    make.right.equalTo((cell as! StocksTableViewCell).stockPriceScopeButton.snp.left).offset(-40)
-//                })
-//            })
-//        }
-        
-//        for cell in self.tableView.visibleCells {
-//            
-//                (cell as! StocksTableViewCell).stockPriceScopeButton.snp.makeConstraints({ (make) in
-//                    make.right.equalTo((cell as! StocksTableViewCell).stockPriceScopeButton.snp.left).offset(-40)
-//                })
-//        }
-//        
-//        UIView.animate(withDuration: 1, animations: {
-//            self.tableView.setNeedsDisplay()
-//        })
     }
 
     override func didReceiveMemoryWarning() {
@@ -83,7 +78,9 @@ class StocksViewController: UIViewController {
 
 extension StocksViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        if !self.tableView.isEditing{
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -103,23 +100,12 @@ extension StocksViewController : UITableViewDelegate{
             }
         }
         
-//        if self.tableView.isEditing {
-//            (cell as! StocksTableViewCell).stockPriceScopeButton.snp.makeConstraints({ (make) in
-//                make.right.equalTo((cell as! StocksTableViewCell).stockPriceScopeButton.snp.left).offset(-40)
-//            })
-//            UIView.animate(withDuration: 1, animations: {
-//                cell.setNeedsDisplay()
-//            })
-//        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             self.stocks?.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .bottom)
-        }else if editingStyle == .insert{
-            self.stocks?.insert(Stock(stockName: "qqqq", stockCode: "121212", stockPrice: 12.09, stockPriceScope: 0.1), at:indexPath.row)
-            tableView.insertRows(at: [indexPath], with: .bottom)
         }
     }
     
@@ -128,15 +114,31 @@ extension StocksViewController : UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        if indexPath.row % 2 == 1 {
-            return false
-        }
         return true
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         
+        if !self.tableView.isEditing {
+            return .delete
+        }
         return .none
+    }
+    
+    func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+        if action == #selector(copy(_:)) {
+            return true
+        }
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
+        if action == #selector(copy(_:)) {
+        }
     }
 }
 
@@ -159,6 +161,13 @@ extension StocksViewController : UITableViewDataSource{
         }else{
             (cell as! StocksTableViewCell).stock = (self.stocks?[indexPath.row])!
         }
+        
+        if self.tableView.isEditing {
+            (cell as! StocksTableViewCell).editModel()
+        }else{
+            (cell as! StocksTableViewCell).deEditModel()
+        }
+        
         return cell!
     }
     

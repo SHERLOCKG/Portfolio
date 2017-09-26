@@ -24,7 +24,7 @@ class StocksTableViewCell: UITableViewCell {
         }
     }
     
-    private let stockNameLabel : UILabel = {
+    public let stockNameLabel : UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
         
@@ -151,5 +151,26 @@ class StocksTableViewCell: UITableViewCell {
         
         stockPriceScopeButton.backgroundColor = self.stockPriceScopeButtonColor
     }
+}
 
+extension StocksTableViewCell{
+    func editModel(){
+        self.stockPriceScopeButton.alpha = 0
+        self.setNeedsLayout()
+        UIView.animate(withDuration: 1) {
+            self.stockNameLabel.snp.updateConstraints({ (make) in
+                make.left.equalTo(50)
+            })
+        }
+    }
+    
+    func deEditModel(){
+        self.setNeedsLayout()
+        UIView.animate(withDuration: 1) {
+            self.stockPriceScopeButton.alpha = 1
+            self.stockNameLabel.snp.updateConstraints({ (make) in
+                make.left.equalTo(15)
+            })
+        }
+    }
 }
