@@ -61,9 +61,9 @@ class StocksTableViewCell: UITableViewCell {
         self.stock = stock
         
         let view = UIView()
-        view.backgroundColor = UIColor(colorLiteralRed: 0.15, green: 0.15, blue: 0.2, alpha: 1)
+        view.backgroundColor = UIColor(displayP3Red: 0.15, green: 0.15, blue: 0.2, alpha: 1)
         self.selectedBackgroundView = view
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = UIColor(displayP3Red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
         
         setUp()
     }
@@ -74,6 +74,18 @@ class StocksTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    override var canBecomeFirstResponder: Bool{
+        return true
+    }
+    
+    override func willTransition(to state: UITableViewCellStateMask) {
+        
+    }
+    
+    override func didTransition(to state: UITableViewCellStateMask) {
+        
     }
     
     func setUp() {
@@ -155,6 +167,7 @@ class StocksTableViewCell: UITableViewCell {
 
 extension StocksTableViewCell{
     func editModel(){
+        self.selectedBackgroundView = UIView()
         self.stockPriceScopeButton.alpha = 0
         self.setNeedsLayout()
         UIView.animate(withDuration: 1) {
@@ -165,6 +178,9 @@ extension StocksTableViewCell{
     }
     
     func deEditModel(){
+        let view = UIView()
+        view.backgroundColor = UIColor(displayP3Red: 0.15, green: 0.15, blue: 0.2, alpha: 1)
+        self.selectedBackgroundView = view
         self.setNeedsLayout()
         UIView.animate(withDuration: 1) {
             self.stockPriceScopeButton.alpha = 1

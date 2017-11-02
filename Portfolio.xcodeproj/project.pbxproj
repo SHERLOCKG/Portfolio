@@ -17,6 +17,7 @@
 		AE4AE9B61F678AFA0017A6CE /* StocksNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4AE9B51F678AFA0017A6CE /* StocksNavigationController.swift */; };
 		AE4AE9B81F67E0170017A6CE /* StocksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4AE9B71F67E0170017A6CE /* StocksTableViewCell.swift */; };
 		AE5C1B671F6933FD0008DC07 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5C1B661F6933FD0008DC07 /* Stock.swift */; };
+		AEDEB14D1FA70290002F31A5 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDEB14C1FA70290002F31A5 /* InformationViewController.swift */; };
 		E1CA329ABE01B6E77E902455 /* Pods_Portfolio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4212D2B9C6837DED345C46D4 /* Pods_Portfolio.framework */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		AE4AE9B51F678AFA0017A6CE /* StocksNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StocksNavigationController.swift; sourceTree = "<group>"; };
 		AE4AE9B71F67E0170017A6CE /* StocksTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StocksTableViewCell.swift; sourceTree = "<group>"; };
 		AE5C1B661F6933FD0008DC07 /* Stock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
+		AEDEB14C1FA70290002F31A5 /* InformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
 		FAB4DA3A1E84008320FFDC8E /* Pods-Portfolio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Portfolio.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Portfolio/Pods-Portfolio.debug.xcconfig"; sourceTree = "<group>"; };
 		FF02D967025668857843218D /* Pods-Portfolio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Portfolio.release.xcconfig"; path = "Pods/Target Support Files/Pods-Portfolio/Pods-Portfolio.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,6 +128,7 @@
 		AE4AE9B11F6778550017A6CE /* information */ = {
 			isa = PBXGroup;
 			children = (
+				AEDEB14C1FA70290002F31A5 /* InformationViewController.swift */,
 			);
 			name = information;
 			path = Portfolio/information;
@@ -266,6 +269,7 @@
 			files = (
 				AE4AE9B61F678AFA0017A6CE /* StocksNavigationController.swift in Sources */,
 				AE210FA81F6D1B48002AD5B6 /* StockInfoLoader.swift in Sources */,
+				AEDEB14D1FA70290002F31A5 /* InformationViewController.swift in Sources */,
 				AE4AE99D1F66803E0017A6CE /* AppDelegate.swift in Sources */,
 				AE5C1B671F6933FD0008DC07 /* Stock.swift in Sources */,
 				AE4AE9B81F67E0170017A6CE /* StocksTableViewCell.swift in Sources */,

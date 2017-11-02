@@ -46,9 +46,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = UIColor(displayP3Red: 0.218, green: 0.5625, blue: 0.973, alpha: 1)
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().barStyle = .black
-        UINavigationBar.appearance().barTintColor = UIColor(colorLiteralRed: 0.15, green: 0.15, blue: 0.2, alpha: 1)
+        UINavigationBar.appearance().barTintColor = UIColor(displayP3Red: 0.15, green: 0.15, blue: 0.2, alpha: 1)
         UITabBar.appearance().isTranslucent = false
-        UITabBar.appearance().barTintColor = UIColor(colorLiteralRed: 0.15, green: 0.15, blue: 0.2, alpha: 1)
+        UITabBar.appearance().barTintColor = UIColor(displayP3Red: 0.15, green: 0.15, blue: 0.2, alpha: 1)
         UITabBar.appearance().tintColor = UIColor(displayP3Red: 0.218, green: 0.5625, blue: 0.973, alpha: 1)
     }
 

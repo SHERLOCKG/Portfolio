@@ -38,7 +38,11 @@ class StockInfoLoader {
         timer!.setEventHandler(handler: {
             [weak self] in
             self?.timer!.suspend()
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            
+            DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            }
+            
             Alamofire.request(urlString).responseString{
                 [weak self] response in
                 if let value = response.result.value{

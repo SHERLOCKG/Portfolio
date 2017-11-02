@@ -16,11 +16,12 @@ class StocksViewController: UIViewController {
     var stocks : [Stock]?
     var lastStocks : [Stock]?
     var editBarItem: UIBarButtonItem? = nil
+    var longPressCell : StocksTableViewCell?
     
     fileprivate lazy var tableView : UITableView = {
         let tableView = UITableView()
         
-        tableView.backgroundColor = UIColor.black
+        tableView.backgroundColor = UIColor(displayP3Red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
         tableView.separatorStyle = .none
         tableView.delegate = self
         tableView.dataSource = self
@@ -42,6 +43,8 @@ class StocksViewController: UIViewController {
         
         self.loader.delegate = self
         self.loader.loadStocksInfos()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(willHideMenu), name: .UIMenuControllerWillHideMenu, object: nil)
     }
     
     private func setNavigationBarItem(){
@@ -70,6 +73,43 @@ class StocksViewController: UIViewController {
         self.tableView.allowsMultipleSelectionDuringEditing = !self.tableView.isEditing
         self.tableView.setEditing(!self.tableView.isEditing, animated: true)
     }
+    
+    @objc fileprivate func longPress(longPressGestureGecognizer : UILongPressGestureRecognizer){
+        if self.tableView.isEditing {
+            return
+        }
+        
+        let cell = longPressGestureGecognizer.view as! StocksTableViewCell
+        cell.setSelected(true, animated: false)
+        
+        if longPressGestureGecognizer.state == .began{
+            longPressCell = cell
+            cell.becomeFirstResponder()
+            
+            let menuController = UIMenuController.shared
+            
+            let delete = UIMenuItem(title: "删除", action: #selector(Delete))
+            let top = UIMenuItem(title: "置顶", action: #selector(Top))
+            
+            menuController.menuItems = [delete, top]
+            var rect = cell.frame
+            rect.origin.y = rect.origin.y + 13
+            menuController.setTargetRect(rect, in: self.tableView)
+            menuController.setMenuVisible(true, animated: true)
+        }
+        
+    }
+    
+    @objc private func Delete(){
+    }
+    
+    @objc private func Top(){
+        
+    }
+    
+    @objc private func willHideMenu(){
+        longPressCell?.setSelected(false, animated: true)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -81,6 +121,10 @@ extension StocksViewController : UITableViewDelegate{
         if !self.tableView.isEditing{
             tableView.deselectRow(at: indexPath, animated: true)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return indexPath
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -113,10 +157,6 @@ extension StocksViewController : UITableViewDelegate{
         
     }
     
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         
         if !self.tableView.isEditing {
@@ -125,21 +165,28 @@ extension StocksViewController : UITableViewDelegate{
         return .none
     }
     
-    func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        if action == #selector(copy(_:)) {
-            return true
-        }
-        return false
-    }
-    
-    func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
-        if action == #selector(copy(_:)) {
-        }
-    }
+//    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+//        return true
+//    }
+
+//    func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
+//        if self.tableView.isEditing {
+//            return false
+//        }
+//        return true
+//    }
+//
+//    func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+//        if action == #selector(copy(_:)) {
+//            return true
+//        }
+//        return false
+//    }
+//
+//    func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
+//        if action == #selector(copy(_:)) {
+//        }
+//    }
 }
 
 extension StocksViewController : UITableViewDataSource{
@@ -161,7 +208,14 @@ extension StocksViewController : UITableViewDataSource{
         }else{
             (cell as! StocksTableViewCell).stock = (self.stocks?[indexPath.row])!
         }
+        if cell!.gestureRecognizers != nil {
+            for gestureRecognizer in cell!.gestureRecognizers! {
+                cell!.removeGestureRecognizer(gestureRecognizer)
+            }
+        }
         
+        let longPressGestureRecognizer : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
+        cell!.addGestureRecognizer(longPressGestureRecognizer)
         if self.tableView.isEditing {
             (cell as! StocksTableViewCell).editModel()
         }else{
