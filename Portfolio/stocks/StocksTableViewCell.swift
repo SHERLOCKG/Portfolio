@@ -151,42 +151,72 @@ class StocksTableViewCell: UITableViewCell {
     @objc private func click(){
         let _ = "swdsd"
     }
+    
+    func changeStockButtonColorAnimation() {
+        UIView.animate(withDuration: 1.5){
+            
+            self.stockPriceScopeButton.backgroundColor = self.stockPriceScopeButtonColor?.withAlphaComponent(0.3)
+            
+            UIView.animate(withDuration: 1.5, animations: {
+                self.stockPriceScopeButton.backgroundColor = self.stockPriceScopeButtonColor
+            })
+        }
+    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
+
         stockPriceScopeButton.backgroundColor = self.stockPriceScopeButtonColor
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         stockPriceScopeButton.backgroundColor = self.stockPriceScopeButtonColor
     }
 }
 
 extension StocksTableViewCell{
-    func editModel(){
+    func editModel(withAnimation animation : Bool){
         self.selectedBackgroundView = UIView()
         self.stockPriceScopeButton.alpha = 0
-        self.setNeedsLayout()
-        UIView.animate(withDuration: 1) {
+        if self.gestureRecognizers?.count != 0 && self.gestureRecognizers != nil{
+            self.removeGestureRecognizer(self.gestureRecognizers![0])
+        }
+        if animation {
+            self.setNeedsLayout()
+            UIView.animate(withDuration: 1) {
+                self.stockNameLabel.snp.updateConstraints({ (make) in
+                    make.left.equalTo(50)
+                })
+            }
+        }else{
             self.stockNameLabel.snp.updateConstraints({ (make) in
                 make.left.equalTo(50)
             })
         }
     }
     
-    func deEditModel(){
+    func deEditModel(withAnimation animation : Bool){
         let view = UIView()
         view.backgroundColor = UIColor(displayP3Red: 0.15, green: 0.15, blue: 0.2, alpha: 1)
         self.selectedBackgroundView = view
-        self.setNeedsLayout()
-        UIView.animate(withDuration: 1) {
-            self.stockPriceScopeButton.alpha = 1
-            self.stockNameLabel.snp.updateConstraints({ (make) in
-                make.left.equalTo(15)
-            })
+        
+        if animation {
+            self.setNeedsLayout()
+            UIView.animate(withDuration: 1) {
+                self.stockPriceScopeButton.alpha = 1
+                self.stockNameLabel.snp.updateConstraints({ (make) in
+                    make.left.equalTo(15)
+                })
+            }
+        }else{
+            UIView.animate(withDuration: 1) {
+                self.stockPriceScopeButton.alpha = 1
+                self.stockNameLabel.snp.updateConstraints({ (make) in
+                    make.left.equalTo(15)
+                })
+            }
         }
     }
 }
