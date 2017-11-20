@@ -1,15 +1,20 @@
 PODS:
   - Alamofire (4.4.0)
+  - FMDB (2.6.2):
+    - FMDB/standard (= 2.6.2)
+  - FMDB/standard (2.6.2)
   - SnapKit (3.2.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
+  - FMDB
   - SnapKit (~> 3.2.0)
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
 
-PODFILE CHECKSUM: 2502971275240abe342a119d6595a5d793d6b411
+PODFILE CHECKSUM: 080d2505b6e5cf3282fe196dba8a0f09a34f0482
 
 COCOAPODS: 1.2.0

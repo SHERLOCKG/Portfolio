@@ -77,6 +77,7 @@
 				AE4AE9AF1F6778550017A6CE /* discover */,
 				AE4AE9B41F6783070017A6CE /* market */,
 				AE4AE9B11F6778550017A6CE /* information */,
+				AECDACA71FB1A58D00A2680B /* SQLiteManager */,
 				AE4AE99A1F66803E0017A6CE /* Products */,
 				A64EC45C46CB272D40B4A740 /* Pods */,
 				3AB3DE2CA7370C61D7285A79 /* Frameworks */,
@@ -140,6 +141,14 @@
 			);
 			name = market;
 			path = Portfolio/market;
+			sourceTree = "<group>";
+		};
+		AECDACA71FB1A58D00A2680B /* SQLiteManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = SQLiteManager;
+			path = Portfolio/SQLiteManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

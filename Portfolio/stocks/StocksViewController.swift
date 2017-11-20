@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import Alamofire
+import FMDB
 
 class StocksViewController: UIViewController {
     let loader = StockInfoLoader()
@@ -22,7 +23,7 @@ class StocksViewController: UIViewController {
     fileprivate lazy var tableView : UITableView = {
         let tableView = UITableView()
         
-        tableView.backgroundColor = UIColor(displayP3Red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
+        tableView.backgroundColor = .black
         tableView.separatorStyle = .none
         tableView.delegate = self
         tableView.dataSource = self
@@ -144,18 +145,17 @@ extension StocksViewController : UITableViewDelegate{
 //            tableView.deleteRows(at: [indexPath], with: .bottom)
 //        }
 //    }
-    
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
 //
-//        if !self.tableView.isEditing {
-//            return .delete
-//        }
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
 //        return .none
 //    }
     
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
+//    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+//        if indexPath.row % 2 == 0 {
+//            return false
+//        }
+//        return true
+//    }
 }
 
 extension StocksViewController : UITableViewDataSource{
