@@ -30,7 +30,9 @@ struct Stock{
             }
         }
     }
-    
+}
+
+extension Stock{
     init(stockInfoString : String, stockCode : String) {
         self.stockInfoString = stockInfoString
         self.stockCode = stockCode
@@ -53,5 +55,4 @@ struct Stock{
         self.stockPriceScope = stockPriceScope
         self.isSuspended = false
     }
-    
 }

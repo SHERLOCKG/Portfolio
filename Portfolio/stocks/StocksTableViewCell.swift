@@ -24,7 +24,7 @@ class StocksTableViewCell: UITableViewCell {
         }
     }
     
-    public let stockNameLabel : UILabel = {
+    public var stockNameLabel : UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
         
@@ -39,7 +39,7 @@ class StocksTableViewCell: UITableViewCell {
         return label
     }()
 
-    public let stockPriceLabel : UILabel = {
+    public var stockPriceLabel : UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 21)
@@ -47,7 +47,7 @@ class StocksTableViewCell: UITableViewCell {
         return label
     }()
     
-    public let stockPriceScopeButton : UIButton = {
+    public var stockPriceScopeButton : UIButton = {
         let button = UIButton(type: .custom)
         button.setTitleColor(.white, for: .normal)
         
@@ -56,8 +56,8 @@ class StocksTableViewCell: UITableViewCell {
         return button
     }()
     
-    init(_ stock : Stock) {
-        super.init(style: .default, reuseIdentifier: "CELL")
+    convenience init(_ stock : Stock) {
+        self.init(style: .default, reuseIdentifier: "CELL")
         self.stock = stock
         
         let view = UIView()
@@ -68,8 +68,10 @@ class StocksTableViewCell: UITableViewCell {
         setUp()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    convenience init() {
+//        super.init()
+        self.init(style: .default, reuseIdentifier: "CELL")
+        setUp()
     }
     
     override func awakeFromNib() {
@@ -88,12 +90,12 @@ class StocksTableViewCell: UITableViewCell {
         
     }
     
-    func setUp() {
-        stockPriceScopeButton.addTarget(self, action: #selector(click), for: .touchUpInside)
+    fileprivate func setUp() {
+        stockPriceScopeButton.addTarget(self, action: .click, for: .touchUpInside)
         self.addSubview(stockNameLabel)
         self.addSubview(stockCodeLabel)
         self.addSubview(stockPriceLabel)
-        self.addSubview(stockPriceScopeButton)
+        self.addSubview(self.stockPriceScopeButton)
         
         stockNameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(15)
@@ -148,7 +150,7 @@ class StocksTableViewCell: UITableViewCell {
         }
     }
     
-    @objc private func click(){
+    @objc fileprivate func click(){
         let _ = "swdsd"
     }
     
@@ -219,4 +221,22 @@ extension StocksTableViewCell{
             }
         }
     }
+}
+
+//extension StocksTableViewCell{
+//    convenience init(_ stock : Stock) {
+//        self.init(style: .default, reuseIdentifier: "CELL")
+//        self.stock = stock
+//
+//        let view = UIView()
+//        view.backgroundColor = UIColor(displayP3Red: 0.15, green: 0.15, blue: 0.2, alpha: 1)
+//        self.selectedBackgroundView = view
+//        self.backgroundColor = UIColor(displayP3Red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
+//
+//        setUp()
+//    }
+//}
+
+private extension Selector{
+    static let click = #selector(StocksTableViewCell.click)
 }

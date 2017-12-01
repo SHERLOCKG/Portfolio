@@ -12,21 +12,14 @@ import Alamofire
 import FMDB
 
 class StocksViewController: UIViewController {
-    let loader = StockInfoLoader()
-    
-    var stocks : [Stock]?
-    var lastStocks : [Stock]?
+    let stockViewModel = StockViewModel()
     var editBarItem: UIBarButtonItem? = nil
     var longPressCell : StocksTableViewCell?
-    var longPressGestureRecognizesArray : [UILongPressGestureRecognizer]?
     
     fileprivate lazy var tableView : UITableView = {
         let tableView = UITableView()
-        
         tableView.backgroundColor = .black
         tableView.separatorStyle = .none
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.delaysContentTouches = true
         
         return tableView
@@ -42,15 +35,22 @@ class StocksViewController: UIViewController {
         }
         
         self.setNavigationBarItem()
+        self.stockViewModel.updateCellsBlock = {
+            self.tableView.reloadData()
+        }
         
-        self.loader.delegate = self
-        self.loader.loadStocksInfos()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.addObserver(self.stockViewModel, forKeyPath: "isEditing", options: .new, context: &myContext)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(willHideMenu), name: .UIMenuControllerWillHideMenu, object: nil)
+        self.stockViewModel.loadInfo()
+        
+        NotificationCenter.default.addObserver(self, selector: .willHideMenu, name: .UIMenuControllerWillHideMenu, object: nil)
+//        self.navigationController?.navigationBar.clipsToBounds = true
     }
     
     private func setNavigationBarItem(){
-        self.editBarItem = UIBarButtonItem(title: "编辑", style: .plain, target: self, action: #selector(edit))
+        self.editBarItem = UIBarButtonItem(title: "编辑", style: .plain, target: self, action: .edit)
         self.editBarItem!.setTitleTextAttributes([NSFontAttributeName : UIFont.systemFont(ofSize: 14)], for: .normal)
         let leftSpaceItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         leftSpaceItem.width = 7
@@ -58,7 +58,7 @@ class StocksViewController: UIViewController {
         self.navigationItem.leftBarButtonItems = [leftSpaceItem,self.editBarItem!]
     }
     
-    @objc private func edit(){
+    @objc fileprivate func edit(){
         if !self.tableView.isEditing {
             self.editBarItem!.title = "完成"
             
@@ -70,7 +70,7 @@ class StocksViewController: UIViewController {
             
             for cell in self.tableView.visibleCells {
                 (cell as? StocksTableViewCell)?.deEditModel(withAnimation: true)
-                let longPressGestureRecognizer : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
+                let longPressGestureRecognizer : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: .longPress)
                 cell.addGestureRecognizer(longPressGestureRecognizer)
             }
         }
@@ -92,8 +92,8 @@ class StocksViewController: UIViewController {
             cell.becomeFirstResponder()
             
             let menuController = UIMenuController.shared
-            let delete = UIMenuItem(title: "删除", action: #selector(Delete))
-            let top = UIMenuItem(title: "置顶", action: #selector(Top))
+            let delete = UIMenuItem(title: "删除", action: .delete)
+            let top = UIMenuItem(title: "置顶", action: .top)
             
             menuController.menuItems = [delete, top]
             var rect = cell.frame
@@ -103,14 +103,14 @@ class StocksViewController: UIViewController {
         }
     }
     
-    @objc private func Delete(){
+    @objc fileprivate func Delete(){
     }
     
-    @objc private func Top(){
-        
+    @objc fileprivate func Top(){
+//        self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
     }
     
-    @objc private func willHideMenu(){
+    @objc fileprivate func willHideMenu(){
         longPressCell?.setSelected(false, animated: true)
     }
 
@@ -127,10 +127,10 @@ extension StocksViewController : UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if self.lastStocks != nil {
-            if self.lastStocks![indexPath.row].stockPrice != self.stocks![indexPath.row].stockPrice{
+        if self.stockViewModel.lastStocks != nil {
+            if self.stockViewModel.lastStocks![indexPath.row].stockPrice != self.stockViewModel.stocks![indexPath.row].stockPrice{
                 (cell as! StocksTableViewCell).changeStockButtonColorAnimation()
-                self.lastStocks![indexPath.row] = self.stocks![indexPath.row]
+                self.stockViewModel.lastStocks![indexPath.row] = self.stockViewModel.stocks![indexPath.row]
             }
         }
     }
@@ -160,8 +160,8 @@ extension StocksViewController : UITableViewDelegate{
 
 extension StocksViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.stocks != nil {
-            return (self.stocks?.count)!
+        if self.stockViewModel.stocks != nil {
+            return (self.stockViewModel.stocks?.count)!
         }
         return 0
     }
@@ -173,9 +173,9 @@ extension StocksViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "CELL")
         if cell == nil {
-            cell = StocksTableViewCell((self.stocks?[indexPath.row])!)
+            cell = StocksTableViewCell((self.stockViewModel.stocks?[indexPath.row])!)
         }else{
-            (cell as! StocksTableViewCell).stock = (self.stocks?[indexPath.row])!
+            (cell as! StocksTableViewCell).stock = (self.stockViewModel.stocks?[indexPath.row])!
         }
     
         if self.tableView.isEditing {
@@ -183,7 +183,7 @@ extension StocksViewController : UITableViewDataSource{
         }else{
             (cell as! StocksTableViewCell).deEditModel(withAnimation: false)
             if cell!.gestureRecognizers == nil || cell!.gestureRecognizers?.count == 0{
-                let longPressGestureRecognizer : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
+                let longPressGestureRecognizer : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: .longPress)
                 cell!.addGestureRecognizer(longPressGestureRecognizer)
             }
         }
@@ -209,12 +209,20 @@ extension StocksViewController : UITableViewDataSource{
 //    }
 }
 
-extension StocksViewController : StockInfoLoaderDelegate {
-    func didLoadStockInfos(stocks: [Stock]) {
-        if !self.tableView.isEditing {
-            self.lastStocks = self.stocks
-            self.stocks = stocks
-            self.tableView.reloadData()
-        }
-    }
+//extension StocksViewController : StockInfoLoaderDelegate {
+//    func didLoadStockInfos(stocks: [Stock]) {
+//        if !self.tableView.isEditing {
+//            self.lastStocks = self.stocks
+//            self.stocks = stocks
+//            self.tableView.reloadData()
+//        }
+//    }
+//}
+
+private extension Selector{
+    static let delete = #selector(StocksViewController.Delete)
+    static let top = #selector(StocksViewController.Top)
+    static let willHideMenu = #selector(StocksViewController.willHideMenu)
+    static let edit = #selector(StocksViewController.edit)
+    static let longPress = #selector(StocksViewController.longPress(longPressGestureGecognizer:))
 }

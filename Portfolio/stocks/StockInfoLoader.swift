@@ -90,6 +90,7 @@ class StockInfoLoader {
                 break
             }
             let stock = Stock(stockInfoString: item, stockCode : stockCodes[i])
+            
             self.stocks!.append(stock)
             i = i + 1
         }
