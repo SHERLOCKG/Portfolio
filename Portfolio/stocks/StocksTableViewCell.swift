@@ -60,18 +60,24 @@ class StocksTableViewCell: UITableViewCell {
         self.init(style: .default, reuseIdentifier: "CELL")
         self.stock = stock
         
-        let view = UIView()
-        view.backgroundColor = UIColor(displayP3Red: 0.15, green: 0.15, blue: 0.2, alpha: 1)
-        self.selectedBackgroundView = view
-        self.backgroundColor = UIColor(displayP3Red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
-        
-        setUp()
+//        setUp()
     }
     
     convenience init() {
 //        super.init()
         self.init(style: .default, reuseIdentifier: "CELL")
         setUp()
+    }
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: .default, reuseIdentifier: "CELL")
+
+        setUp()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
     override func awakeFromNib() {
@@ -91,6 +97,11 @@ class StocksTableViewCell: UITableViewCell {
     }
     
     fileprivate func setUp() {
+        let view = UIView()
+        view.backgroundColor = UIColor(displayP3Red: 0.15, green: 0.15, blue: 0.2, alpha: 1)
+        self.selectedBackgroundView = view
+        self.backgroundColor = UIColor(displayP3Red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
+        
         stockPriceScopeButton.addTarget(self, action: .click, for: .touchUpInside)
         self.addSubview(stockNameLabel)
         self.addSubview(stockCodeLabel)
@@ -213,12 +224,16 @@ extension StocksTableViewCell{
                 })
             }
         }else{
-            UIView.animate(withDuration: 1) {
-                self.stockPriceScopeButton.alpha = 1
-                self.stockNameLabel.snp.updateConstraints({ (make) in
-                    make.left.equalTo(15)
-                })
-            }
+//            UIView.animate(withDuration: 1) {
+//                self.stockPriceScopeButton.alpha = 1
+//                self.stockNameLabel.snp.updateConstraints({ (make) in
+//                    make.left.equalTo(15)
+//                })
+//            }
+            self.stockPriceScopeButton.alpha = 1
+            self.stockNameLabel.snp.updateConstraints({ (make) in
+                make.left.equalTo(15)
+            })
         }
     }
 }

@@ -19,8 +19,10 @@ class StocksViewController: UIViewController {
     fileprivate lazy var tableView : UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .black
-        tableView.separatorStyle = .none
+//        tableView.separatorStyle = .none
+        tableView.separatorInset = UIEdgeInsetsMake(0, 60, 0, 60)
         tableView.delaysContentTouches = true
+        tableView.register(StocksTableViewCell.self, forCellReuseIdentifier: "CELL")
         
         return tableView
     }()
@@ -28,6 +30,13 @@ class StocksViewController: UIViewController {
     override func viewDidLoad(){
         super.viewDidLoad()
         self.title = "自选股"
+        
+        if #available(iOS 11.0, *) {
+            self.navigationController?.navigationBar.prefersLargeTitles = true
+            self.navigationItem.largeTitleDisplayMode = .never
+        } else {
+            // Fallback on earlier versions
+        }
         
         self.view.addSubview(self.tableView)
         tableView.snp.makeConstraints { (make) in
@@ -171,24 +180,21 @@ extension StocksViewController : UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "CELL")
-        if cell == nil {
-            cell = StocksTableViewCell((self.stockViewModel.stocks?[indexPath.row])!)
-        }else{
-            (cell as! StocksTableViewCell).stock = (self.stockViewModel.stocks?[indexPath.row])!
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CELL", for: indexPath)
+//        tableView.dequeueReusableCell(withIdentifier: <#T##String#>)
+        (cell as! StocksTableViewCell).stock = (self.stockViewModel.stocks?[indexPath.row])!
     
         if self.tableView.isEditing {
             (cell as! StocksTableViewCell).editModel(withAnimation: false)
         }else{
             (cell as! StocksTableViewCell).deEditModel(withAnimation: false)
-            if cell!.gestureRecognizers == nil || cell!.gestureRecognizers?.count == 0{
+            if cell.gestureRecognizers == nil || cell.gestureRecognizers?.count == 0{
                 let longPressGestureRecognizer : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: .longPress)
-                cell!.addGestureRecognizer(longPressGestureRecognizer)
+                cell.addGestureRecognizer(longPressGestureRecognizer)
             }
         }
         
-        return cell!
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

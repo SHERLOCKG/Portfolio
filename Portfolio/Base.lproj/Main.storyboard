@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="4tJ-ke-71n">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="4tJ-ke-71n">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -31,8 +31,8 @@
             <objects>
                 <viewController id="QfX-Mg-oZG" customClass="StocksViewController" customModule="Portfolio" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="TfE-ET-XrE"/>
-                        <viewControllerLayoutGuide type="bottom" id="G5h-0F-OoY"/>
+                        <viewControllerLayoutGuide type="top" id="6gP-FV-iVC"/>
+                        <viewControllerLayoutGuide type="bottom" id="AlV-kI-Iry"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="JB8-Sk-pVC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -67,8 +67,8 @@
             <objects>
                 <viewController id="1EW-be-s15" customClass="InformationViewController" customModule="Portfolio" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ax9-ae-qKK"/>
-                        <viewControllerLayoutGuide type="bottom" id="FcW-a4-dbU"/>
+                        <viewControllerLayoutGuide type="top" id="s1s-EX-5Nr"/>
+                        <viewControllerLayoutGuide type="bottom" id="Geu-He-Fj3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bZ6-xO-kiQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -106,8 +106,8 @@
             <objects>
                 <viewController id="gtG-AX-Gow" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="lav-8x-1si"/>
-                        <viewControllerLayoutGuide type="bottom" id="R1D-mJ-DTk"/>
+                        <viewControllerLayoutGuide type="top" id="fR4-e9-dh4"/>
+                        <viewControllerLayoutGuide type="bottom" id="cI0-6t-iii"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="jj8-Uu-Qd1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -125,8 +125,8 @@
             <objects>
                 <viewController id="24K-c4-XTJ" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="xaj-9O-Pgk"/>
-                        <viewControllerLayoutGuide type="bottom" id="RGu-Kj-okP"/>
+                        <viewControllerLayoutGuide type="top" id="hpu-84-m5o"/>
+                        <viewControllerLayoutGuide type="bottom" id="E4l-2r-1b5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bAJ-8i-U3P">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
