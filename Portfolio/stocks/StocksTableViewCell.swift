@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReactiveCocoa
 
 class StocksTableViewCell: UITableViewCell {
     lazy var numformat : NumberFormatter = {
@@ -27,6 +28,7 @@ class StocksTableViewCell: UITableViewCell {
     public var stockNameLabel : UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
+        let a = UITextField()
         
         return label
     }()

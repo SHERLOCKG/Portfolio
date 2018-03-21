@@ -19,8 +19,7 @@ class StocksViewController: UIViewController {
     fileprivate lazy var tableView : UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .black
-//        tableView.separatorStyle = .none
-        tableView.separatorInset = UIEdgeInsetsMake(0, 60, 0, 60)
+        tableView.separatorStyle = .none
         tableView.delaysContentTouches = true
         tableView.register(StocksTableViewCell.self, forCellReuseIdentifier: "CELL")
         
