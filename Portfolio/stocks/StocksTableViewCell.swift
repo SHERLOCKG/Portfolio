@@ -25,7 +25,7 @@ class StocksTableViewCell: UITableViewCell {
         }
     }
     
-    public var stockNameLabel : UILabel = {
+    var stockNameLabel : UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
         let a = UITextField()
@@ -41,7 +41,7 @@ class StocksTableViewCell: UITableViewCell {
         return label
     }()
 
-    public var stockPriceLabel : UILabel = {
+    var stockPriceLabel : UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 21)
@@ -49,7 +49,7 @@ class StocksTableViewCell: UITableViewCell {
         return label
     }()
     
-    public var stockPriceScopeButton : UIButton = {
+    var stockPriceScopeButton : UIButton = {
         let button = UIButton(type: .custom)
         button.setTitleColor(.white, for: .normal)
         
@@ -61,12 +61,9 @@ class StocksTableViewCell: UITableViewCell {
     convenience init(_ stock : Stock) {
         self.init(style: .default, reuseIdentifier: "CELL")
         self.stock = stock
-        
-//        setUp()
     }
     
     convenience init() {
-//        super.init()
         self.init(style: .default, reuseIdentifier: "CELL")
         setUp()
     }
@@ -78,7 +75,6 @@ class StocksTableViewCell: UITableViewCell {
     }
 
     required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
         super.init(coder: aDecoder)
     }
     
@@ -90,13 +86,16 @@ class StocksTableViewCell: UITableViewCell {
         return true
     }
     
-    override func willTransition(to state: UITableViewCellStateMask) {
-        
-    }
-    
-    override func didTransition(to state: UITableViewCellStateMask) {
-        
-    }
+//    无法执行alpha动画
+//    override func willTransition(to state: UITableViewCellStateMask) {
+//        super.willTransition(to: state)
+//
+//        if state.rawValue == 0 {
+//
+//        }else{
+//
+//        }
+//    }
     
     fileprivate func setUp() {
         let view = UIView()
@@ -193,6 +192,7 @@ class StocksTableViewCell: UITableViewCell {
 
 extension StocksTableViewCell{
     func editModel(withAnimation animation : Bool){
+        //是编辑模式下点击cell颜色不改变
         self.selectedBackgroundView = UIView()
         self.stockPriceScopeButton.alpha = 0
         if self.gestureRecognizers?.count != 0 && self.gestureRecognizers != nil{
@@ -226,12 +226,6 @@ extension StocksTableViewCell{
                 })
             }
         }else{
-//            UIView.animate(withDuration: 1) {
-//                self.stockPriceScopeButton.alpha = 1
-//                self.stockNameLabel.snp.updateConstraints({ (make) in
-//                    make.left.equalTo(15)
-//                })
-//            }
             self.stockPriceScopeButton.alpha = 1
             self.stockNameLabel.snp.updateConstraints({ (make) in
                 make.left.equalTo(15)
@@ -239,20 +233,6 @@ extension StocksTableViewCell{
         }
     }
 }
-
-//extension StocksTableViewCell{
-//    convenience init(_ stock : Stock) {
-//        self.init(style: .default, reuseIdentifier: "CELL")
-//        self.stock = stock
-//
-//        let view = UIView()
-//        view.backgroundColor = UIColor(displayP3Red: 0.15, green: 0.15, blue: 0.2, alpha: 1)
-//        self.selectedBackgroundView = view
-//        self.backgroundColor = UIColor(displayP3Red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
-//
-//        setUp()
-//    }
-//}
 
 private extension Selector{
     static let click = #selector(StocksTableViewCell.click)

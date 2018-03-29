@@ -27,10 +27,10 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="9Uf-bg-eKO" secondAttribute="bottom" id="Kuk-9y-P5e"/>
                             <constraint firstItem="9Uf-bg-eKO" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="bSV-N2-zl2"/>
                             <constraint firstItem="9Uf-bg-eKO" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="efL-jG-KH3"/>
                             <constraint firstAttribute="trailing" secondItem="9Uf-bg-eKO" secondAttribute="trailing" id="plr-4b-Kqh"/>
+                            <constraint firstAttribute="bottom" secondItem="9Uf-bg-eKO" secondAttribute="bottom" id="u8R-om-oez"/>
                         </constraints>
                     </view>
                 </viewController>

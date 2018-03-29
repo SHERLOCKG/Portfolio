@@ -8,10 +8,10 @@
 
 import Foundation
 
-var myContext = 0
+//var myContext = 0
 
 class StockViewModel : NSObject,Comparable{
-    let loader = StockInfoLoader()
+    let loader = StockInfoLoader.instance
     
     var stocks : [Stock]?
     var lastStocks : [Stock]?
@@ -32,7 +32,16 @@ class StockViewModel : NSObject,Comparable{
     
     override init() {
         super.init()
-        self.loader.delegate = self
+        self.loader.delegateSinal.observeValues {
+            [weak self](stocks) in
+            if !self!.isEditing {
+                self!.lastStocks = self!.stocks
+                self!.stocks = stocks
+                if self!.updateCellsBlock != nil{
+                    self!.updateCellsBlock!()
+                }
+            }
+        }
     }
     
     func loadInfo() {
@@ -40,25 +49,14 @@ class StockViewModel : NSObject,Comparable{
     }
 }
 
-extension StockViewModel : StockInfoLoaderDelegate {
-    func didLoadStockInfos(stocks: [Stock]) {
-        if !self.isEditing {
-            self.lastStocks = self.stocks
-            self.stocks = stocks
-            if updateCellsBlock != nil{
-                updateCellsBlock!()
-            }
-        }
-    }
-}
-
 // MARK: - 观察StockViewController的tableView的isEditing属性变化
-extension StockViewModel{
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &myContext {
-            if change?[.newKey] != nil && keyPath == "idEditing"{
-                self.isEditing = change![.newKey] as! Bool
-            }
-        }
-    }
-}
+//extension StockViewModel{
+//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+//        if context == &myContext {
+//            if change?[.newKey] != nil && keyPath == "idEditing"{
+//                self.isEditing = change![.newKey] as! Bool
+//            }
+//        }
+//    }
+//}
+

@@ -120,8 +120,8 @@
 				AE4AE9B21F677A090017A6CE /* StocksViewController.swift */,
 				AEECA8381FCC063B003046B0 /* StockViewModel.swift */,
 				AE4AE9B71F67E0170017A6CE /* StocksTableViewCell.swift */,
-				AE5C1B661F6933FD0008DC07 /* Stock.swift */,
 				AE210FA71F6D1B48002AD5B6 /* StockInfoLoader.swift */,
+				AE5C1B661F6933FD0008DC07 /* Stock.swift */,
 				AE210FA91F6D1FDC002AD5B6 /* stocks.plist */,
 			);
 			name = stocks;
@@ -201,7 +201,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -442,7 +442,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_ENTITLEMENTS = Portfolio/Portfolio.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = J79YHBFTEL;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -490,7 +489,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_ENTITLEMENTS = Portfolio/Portfolio.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = J79YHBFTEL;
 				FRAMEWORK_SEARCH_PATHS = (

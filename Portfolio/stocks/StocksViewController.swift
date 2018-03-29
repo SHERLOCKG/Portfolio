@@ -9,7 +9,9 @@
 import UIKit
 import SnapKit
 import Alamofire
-import FMDB
+import ReactiveCocoa
+import ReactiveSwift
+import Result
 
 class StocksViewController: UIViewController {
     let stockViewModel = StockViewModel()
@@ -27,15 +29,9 @@ class StocksViewController: UIViewController {
     }()
 
     override func viewDidLoad(){
+
         super.viewDidLoad()
         self.title = "自选股"
-        
-        if #available(iOS 11.0, *) {
-            self.navigationController?.navigationBar.prefersLargeTitles = true
-            self.navigationItem.largeTitleDisplayMode = .never
-        } else {
-            // Fallback on earlier versions
-        }
         
         self.view.addSubview(self.tableView)
         tableView.snp.makeConstraints { (make) in
@@ -49,42 +45,48 @@ class StocksViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.addObserver(self.stockViewModel, forKeyPath: "isEditing", options: .new, context: &myContext)
+//        tableView.addObserver(self.stockViewModel, forKeyPath: "isEditing", options: .new, context: &myContext)
+        tableView.reactive.signal(forKeyPath: "isEditing").observeValues { [weak self](isEditing) in
+            if let isEditing = isEditing as? Bool{
+                self?.stockViewModel.isEditing = isEditing
+            }else{
+                fatalError("tableview.isEditing should be Bool type!")
+            }
+        }
         
         self.stockViewModel.loadInfo()
-        
         NotificationCenter.default.addObserver(self, selector: .willHideMenu, name: .UIMenuControllerWillHideMenu, object: nil)
-//        self.navigationController?.navigationBar.clipsToBounds = true
     }
     
     private func setNavigationBarItem(){
-        self.editBarItem = UIBarButtonItem(title: "编辑", style: .plain, target: self, action: .edit)
+        let action = Action { () -> SignalProducer<Any, AnyError> in
+            if !self.tableView.isEditing {
+                self.editBarItem!.title = "完成"
+                for cell in self.tableView.visibleCells {
+                    (cell as? StocksTableViewCell)?.editModel(withAnimation: true)
+                }
+            }else{
+                self.editBarItem!.title = "编辑"
+                for cell in self.tableView.visibleCells {
+                    (cell as? StocksTableViewCell)?.deEditModel(withAnimation: true)
+                    let longPressGestureRecognizer : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: .longPress)
+                    cell.addGestureRecognizer(longPressGestureRecognizer)
+                }
+            }
+            
+            self.tableView.allowsMultipleSelectionDuringEditing = !self.tableView.isEditing
+            self.tableView.setEditing(!self.tableView.isEditing, animated: true)
+        
+            return SignalProducer.empty
+        }
+        
+        self.editBarItem = UIBarButtonItem(title: "编辑", style: .plain, target: nil, action: nil)
         self.editBarItem!.setTitleTextAttributes([NSFontAttributeName : UIFont.systemFont(ofSize: 14)], for: .normal)
+        self.editBarItem?.reactive.pressed = CocoaAction(action)
         let leftSpaceItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         leftSpaceItem.width = 7
         
         self.navigationItem.leftBarButtonItems = [leftSpaceItem,self.editBarItem!]
-    }
-    
-    @objc fileprivate func edit(){
-        if !self.tableView.isEditing {
-            self.editBarItem!.title = "完成"
-            
-            for cell in self.tableView.visibleCells {
-                (cell as? StocksTableViewCell)?.editModel(withAnimation: true)
-            }
-        }else{
-            self.editBarItem!.title = "编辑"
-            
-            for cell in self.tableView.visibleCells {
-                (cell as? StocksTableViewCell)?.deEditModel(withAnimation: true)
-                let longPressGestureRecognizer : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: .longPress)
-                cell.addGestureRecognizer(longPressGestureRecognizer)
-            }
-        }
-        
-        self.tableView.allowsMultipleSelectionDuringEditing = !self.tableView.isEditing
-        self.tableView.setEditing(!self.tableView.isEditing, animated: true)
     }
     
     @objc fileprivate func longPress(longPressGestureGecognizer : UILongPressGestureRecognizer){
@@ -112,10 +114,12 @@ class StocksViewController: UIViewController {
     }
     
     @objc fileprivate func Delete(){
+        print("删除")
     }
     
     @objc fileprivate func Top(){
 //        self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
+        print("置顶")
     }
     
     @objc fileprivate func willHideMenu(){
@@ -144,26 +148,8 @@ extension StocksViewController : UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
+
     }
-    
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            self.stocks?.remove(at: indexPath.row)
-//            tableView.deleteRows(at: [indexPath], with: .bottom)
-//        }
-//    }
-//
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-//        return .none
-//    }
-    
-//    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-//        if indexPath.row % 2 == 0 {
-//            return false
-//        }
-//        return true
-//    }
 }
 
 extension StocksViewController : UITableViewDataSource{
@@ -180,7 +166,6 @@ extension StocksViewController : UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CELL", for: indexPath)
-//        tableView.dequeueReusableCell(withIdentifier: <#T##String#>)
         (cell as! StocksTableViewCell).stock = (self.stockViewModel.stocks?[indexPath.row])!
     
         if self.tableView.isEditing {
@@ -199,35 +184,11 @@ extension StocksViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 46
     }
-    
-//    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-//        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexpath) in
-//            print("delete")
-//        }
-//        deleteAction.backgroundColor = UIColor(displayP3Red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
-//        let topAction = UITableViewRowAction(style: .default, title: "Toppppppppppppp") { (action, indexpath) in
-//            print("Topppppppppppppp")
-//        }
-//        topAction.backgroundColor = UIColor(displayP3Red: 0.3, green: 0.2, blue: 0.2, alpha: 1)
-//
-//        return [topAction, deleteAction]
-//    }
 }
-
-//extension StocksViewController : StockInfoLoaderDelegate {
-//    func didLoadStockInfos(stocks: [Stock]) {
-//        if !self.tableView.isEditing {
-//            self.lastStocks = self.stocks
-//            self.stocks = stocks
-//            self.tableView.reloadData()
-//        }
-//    }
-//}
 
 private extension Selector{
     static let delete = #selector(StocksViewController.Delete)
     static let top = #selector(StocksViewController.Top)
     static let willHideMenu = #selector(StocksViewController.willHideMenu)
-    static let edit = #selector(StocksViewController.edit)
     static let longPress = #selector(StocksViewController.longPress(longPressGestureGecognizer:))
 }
